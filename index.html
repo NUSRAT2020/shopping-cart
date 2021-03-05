@@ -25,12 +25,12 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button  id ="phone-minus"class="btn btn-default">
+                           <button onclick="handleProductChange('phone',false)" class="btn btn-default">
                                <!-- minus button -->
                               <i class="fas fa-minus"></i></button>
-                           <input id ="phone-count"type="text" class="form-control text-center" value="1">
+                           <input id="phone-count"  type="text" class="form-control text-center" value="1">
                            <!-- plus button -->
-                           <button id = "phone-plus"  class="btn btn-default"><i  class="fas fa-plus"></i></button>
+                           <button onclick="handleProductChange('phone',true)"   class="btn btn-default"><i  class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="phone-price" >1219</span>  </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
@@ -46,12 +46,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="handleProductChange('case',false)"class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input  id ="case-count" type="text" class="form-control text-center" value="1">
+                           <button onclick="handleProductChange('case',true)"  class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$ <span id="case-price"> 59</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -61,20 +61,20 @@
                   <div class="row">
 
                      <div class="col-md-8">
-                        <h5>Subtotal: </h5>
+                        <h5>Subtotal:</h5>
                         <h5>Tax:</h5>
                         <h5>Total:</h5>
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span  id="subTotal">1,278</span> </h5>
+                        <h5>$ <span id="tax">0</span> </h5>
+                        <h5>$ <span  id="total">1,278</span></h5>
                      </div>
                   </div>
                </div>
                <div class="col-md-12 pt-4 pb-4">
-                  <button type="button" class="btn btn-success check-out">Check Out</button>
+                  <button onClick="alert('Get Out')" type="button" class="btn btn-success check-out" >Check Out</button>
                </div>
             </div>
          </div>
@@ -82,26 +82,123 @@
    </section>
 
    <script>
-     document.getElementById("phone-plus").addEventListener("click",function() { const phoneInput = document.getElementById("phone-count")
-    const  phoneCount = parseInt(phoneInput.value);
-    const newPhoneCount = phoneCount + 1 ;
-     phoneInput.value = newPhoneCount ;
-
-     const phonePrice = document.getElementById("phone-price")
-      //  console.log(phonePrice);
-       const newPhonePrice = newPhoneCount * 1219 ;
-      //  const phoneTotalPrice = newPhonePrice 
-      phonePrice.innerText = newPhonePrice ;
-
-          
-   })
-    
-  document.getElementById("phone-minus").addEventListener("click",function() {
-     console.log(' minus is working' );
-     
-  })
+       function handleProductChange(product , isIncrease) { const phoneInput = document.getElementById( product+"-count")
+    const  productCount = parseInt(phoneInput.value);
+   let  newProductCount =  productCount  ;
+   if (isIncrease == true )  { 
+      newProductCount =  productCount  + 1 ;
+   }
+   if (isIncrease == false && productCount  > 0) { 
+      newProductCount = productCount  - 1 ;
+   }
+   phoneInput.value = newProductCount ; 
+   //  const newPhonePrice = newProductCount * 1219 ;
+  let  newProductPrice = 0 ;
+  if (product =="case" ) { 
+  newProductPrice = newProductCount * 59 ;
+}
+  if (product =="phone") { 
+   newProductPrice = newProductCount * 1219 ;
+}
+ document.getElementById(product+"-price").innerText = newProductPrice ;
+ calculateTotalValue()
+  }
    
+  function calculateTotalValue() {
+     const phoneInput =  document.getElementById("phone-count");
+     const phoneCount = parseInt(phoneInput.value);
+      
+     const caseInput =  document.getElementById("case-count");
+     const caseCount = parseInt(caseInput.value);
+      
 
+     const productSubTotal = phoneCount * 1219  +  caseCount *  59 ;
+     document.getElementById("subTotal").innerText = productSubTotal ;
+     const tax = Math.round(productSubTotal* 0.1) ;
+     document.getElementById("tax").innerText = tax ;
+
+     const total =  productSubTotal + tax ;
+     document.getElementById("total").innerText =  total;
+   
+     
+  }
+
+
+//     function handlePhoneChange(isIncrease) { const phoneInput = document.getElementById("phone-count")
+//     const  phoneCount = parseInt(phoneInput.value);
+//    let newPhoneCount = phoneCount ;
+//    if (isIncrease == true )  { 
+//       newPhoneCount = phoneCount + 1 ;
+//    }
+//    if (isIncrease == false && phoneCount > 0) { 
+//        newPhoneCount = phoneCount - 1 ;
+//    }
+//     phoneInput.value = newPhoneCount ; 
+//     const newPhonePrice = newPhoneCount * 1219 ;
+//    document.getElementById("phone-price").innerText = newPhonePrice ;
+  
+// }
+   
+    
+//   document.getElementById("phone-minus").addEventListener("click",function() {
+        
+//         const phoneInput = document.getElementById("phone-count");
+//           const phoneCount = parseInt(phoneInput.value)
+//           const newPhoneCount = phoneCount - 1;
+//           phoneInput.value = newPhoneCount ;
+//           const phonePrice =  document.getElementById("phone-price");
+//           const newPhonePrice  = newPhoneCount  * 1219 ;
+//            phonePrice.innerText = newPhonePrice  ;
+//          return phonePrice
+        
+           
+//   })
+
+//   function phonePriceUpdate(id) {
+//    const phoneInput = document.getElementById("phone-count");
+//           const phoneCount = parseInt(phoneInput.value)
+//           const newPhoneCount = phoneCount - 1;
+//           phoneInput.value = newPhoneCount ;
+//           const phonePrice =  document.getElementById("phone-price");
+//           const newPhonePrice  = newPhoneCount  * 1219 ;
+//            phonePrice.innerText = newPhonePrice  ;
+        
+     
+//   }
+
+
+//   document.getElementById("case-plus").addEventListener("click",function() { const caseInput = document.getElementById("case-count")
+//     const  caseCount = parseInt(caseInput.value);
+//     const newCaseCount = caseCount + 1 ;
+//      caseInput.value = newCaseCount ;
+
+//      const phonePrice = document.getElementById("case-price")
+//       //  console.log(phonePrice);
+//        const newPhonePrice = newCaseCount * 59 ;
+//       //  const phoneTotalPrice = newPhonePrice 
+//       phonePrice.innerText = newPhonePrice ;
+      
+//       return phonePrice
+          
+//    })
+    
+//   document.getElementById("case-minus").addEventListener("click",function() {
+        
+//         const phoneInput = document.getElementById("case-count");
+//           const phoneCount = parseInt(phoneInput.value)
+//           const newPhoneCount = phoneCount - 1;
+//           phoneInput.value = newPhoneCount ;
+//           const phonePrice =  document.getElementById("case-price");
+//           const newPhonePrice  = newPhoneCount  * 59 ;
+//            phonePrice.innerText = newPhonePrice  ;
+//            return phonePrice
+        
+//   })
+    
+//   let subTotal = document.getElementById("subTotal");
+//     subTotal =   phonePrice +  phonePrice
+//     console.log({ subTotal});
+       
    </script>
 </body>
 
